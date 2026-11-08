@@ -1,0 +1,68 @@
+---
+layout: runbook
+title: '#4471 split · three problems, not one'
+owner: Matt Allen
+status: open
+reviewed: 2026-11-08
+signature: Matt Allen
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/mallen47/what-it-shows/issues';
+  const issues = {
+    parser: { label: 'what-it-shows#1', href: `${repo}/1` },
+    hint: { label: 'what-it-shows#2', href: `${repo}/2` },
+    shift: { label: 'what-it-shows#3', href: `${repo}/3` },
+  };
+</script>
+
+The [#4471 page](/kb/incidents/4471) calls the ticket one issue with one fix queued. Its own
+table says otherwise, and the reports say more. Read the bodies, not the subject lines, and the
+ticket holds three problems. Each one now has a ticket of its own.
+
+<Callout kind="warn">
+Not one issue. The parser fix that is queued closes only the first row below. The other two stay
+open after it ships.
+</Callout>
+
+## What #4471 holds
+
+<ProblemTable ticket={4471} {issues} />
+
+- **`parser`**: the shared parser reads every date month first, and every tenant on file writes
+  the day first. Day and month swap: 7 April goes out as 4 July. Reports by app, by email, and
+  by the `booking-v2` form, whose hint says `DD/MM/YYYY`.
+- **`hint`**: the `booking-v3` form prints `MM/DD/YYYY` under its date field. People type month
+  first, as told, and the form reads it day first. Same symptom, different place: a parser fix
+  does not touch it.
+- **`shift`**: no swap at all. The date moves by one day ("Tuesday 6 October showed as Monday"),
+  or the invite arrives before the booking, or two attendees in two time zones get two different
+  days. The desk had read these as one-day moves (`desk-notes.json`) and still counted them
+  under the parser.
+
+## Why they were merged
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges reports whose subject lines match,
+without reading the body. Every one of these reports says "wrong day" in some form, so all three
+problems landed in one ticket. The subject tells you that a date is wrong, not why. Intake's tag
+does not help either: it is guessed from the reporter's browser, and the table counts how often
+it disagrees with the tenant.
+
+The table the #4471 page shows, for comparison. It places reports by tenant and channel only, so
+the one-day moves sit under `parser`:
+
+<CauseTable ticket={4471} />
+
+## For the desk
+
+- Before merging into a big ticket, read a sample of bodies. A swap (4 July for 7 April) and a
+  one-day move (Monday for Tuesday) are different bugs with the same subject line.
+- Place a report by its tenant (locale and booking form), not by intake's tag.
+- Decision 0001 needs a successor record: subject match proposes a merge, a person confirms it.
+
+<RenderStamp {signature} />
