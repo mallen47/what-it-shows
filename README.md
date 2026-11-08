@@ -37,7 +37,7 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 ## Added: #4471 split
 
-- Page: `src/routes/kb/incidents/4471-split/+page.svx` (signed: Matt Allen, desk ref DR-HWJ5-0YX7)
+- Page: `src/routes/kb/incidents/4471-split/+page.svx` (owner Matt Allen; signed with the course ticket, desk ref DR-EWBX-W4D5)
 - Logic: `src/lib/kb/problems.ts`, `src/lib/kb/ProblemTable.svelte`
 - As the desk sees it: `rendered/kb/incidents/4471-split.html` (built with `npm install && npm run build`)
 - Tickets: [#1 parser](https://github.com/mallen47/what-it-shows/issues/1) · [#2 hint](https://github.com/mallen47/what-it-shows/issues/2) · [#3 time-zone shift](https://github.com/mallen47/what-it-shows/issues/3)
