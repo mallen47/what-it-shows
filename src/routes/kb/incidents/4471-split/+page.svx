@@ -15,9 +15,9 @@ signature: Matt Allen
 
   const repo = 'https://github.com/mallen47/what-it-shows/issues';
   const issues = {
-    parser: { label: 'what-it-shows#1', href: `${repo}/1` },
-    hint: { label: 'what-it-shows#2', href: `${repo}/2` },
-    shift: { label: 'what-it-shows#3', href: `${repo}/3` },
+    parser: { label: 'what-it-shows#1 · closed, fixed', href: `${repo}/1` },
+    hint: { label: "what-it-shows#2 · closed, won't fix", href: `${repo}/2` },
+    shift: { label: 'what-it-shows#3 · open', href: `${repo}/3` },
   };
 </script>
 
@@ -26,8 +26,9 @@ table says otherwise, and the reports say more. Read the bodies, not the subject
 ticket holds three problems. Each one now has a ticket of its own.
 
 <Callout kind="warn">
-Not one issue. The parser fix that is queued closes only the first row below. The other two stay
-open after it ships.
+Engineering closed #4471 on 5 October. <code>parser</code>: fixed (<code>fix(dates): parse dd/mm
+for eu locales</code>). <code>hint</code>: won't fix, the booking-v3 form is retired. The one-day
+<code>shift</code> is in neither: it stays open.
 </Callout>
 
 ## What #4471 holds
@@ -39,7 +40,7 @@ open after it ships.
   by the `booking-v2` form, whose hint says `DD/MM/YYYY`.
 - **`hint`**: the `booking-v3` form prints `MM/DD/YYYY` under its date field. People type month
   first, as told, and the form reads it day first. Same symptom, different place: a parser fix
-  does not touch it.
+  does not touch it. Retiring the form ends it.
 - **`shift`**: no swap at all. The date moves by one day ("Tuesday 6 October showed as Monday"),
   or the invite arrives before the booking, or two attendees in two time zones get two different
   days. The desk had read these as one-day moves (`desk-notes.json`) and still counted them
